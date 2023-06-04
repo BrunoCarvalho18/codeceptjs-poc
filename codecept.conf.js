@@ -1,13 +1,15 @@
-const { setHeadlessWhen, setCommonPlugins } = require('@codeceptjs/configure');
+const {
+  setHeadlessWhen,
+  setCommonPlugins
+} = require('@codeceptjs/configure');
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
 setHeadlessWhen(process.env.HEADLESS);
 
- // Replace with the name of the file you want to read
+// Replace with the name of the file you want to read
 
- const path = require('path');
- const resolvedPath = path.resolve(process.env.APP);
- console.log("path resolver: "+resolvedPath);
+const path = require('path');
+const resolvedPath = path.resolve('app/qazandoapp.app');
 // enable all common plugins https://github.com/codeceptjs/configure#setcommonplugins
 setCommonPlugins();
 
@@ -17,19 +19,18 @@ exports.config = {
   output: './output',
   helpers: {
     Appium: {
-      platform: process.env.PLATFORM,
+      platform: 'iOS',
       app: resolvedPath,
       desiredCapabilities: {
-        automationName: process.env.AUTOMATION,
-        platformVersion: process.env.VERSION,
-        appPackage: process.env.PLATFORM == "Android" ? process.env.PACKAGE: "",
-        appActivity: process.env.PLATFORM == "Android" ?  process.env.ACTIVITY: "",
-        deviceName: process.env.DEVICE
+        automationName: 'XCUITest',
+        platformVersion: '16.4',
+        deviceName: 'iPhone 14 Pro'
       }
     }
   },
   include: {
-    I: './steps_file.js'
+    I: './steps_file.js',
+    loginPage: "./pages/login.js"
   },
   name: 'poc-automation'
 }
